@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/21 19:07:56 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/21 19:09:10 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*take_line(char *buffer)
 		i++;
 	if (buffer[i] && buffer[i] == '\n')
 		i++;
-	if (buffer[i] == NULL)
+	if (buffer[i] == '\0')
 	{
 		free(buffer);
 		return (NULL);
