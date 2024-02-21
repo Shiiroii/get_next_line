@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/21 16:46:38 by lulm             ###   ########.fr       */
+/*   Updated: 2024/02/21 19:07:56 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,35 @@ char	*backslashn(char *buffer)
 		i++;
 		str[i] = '\n';
 	}
+	return (str);
+}
+
+char	*take_line(char *buffer)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (buffer[i] && buffer[i] == '\n')
+		i++;
+	if (buffer[i] == NULL)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	str = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	if (str == NULL)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	while (buffer[i])
+		str[j++] = str[i++];
+	free(buffer);
 	return (str);
 }
 
