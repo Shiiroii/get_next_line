@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:47 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/21 15:37:41 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/21 16:44:32 by lulm             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,36 +96,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		s2l++;
 	}
 	str[s1l] = '\0';
-	return (str);
-}
-
-char	*freeline(char *buffer, char *c)
-{
-	char	*yes;
-
-	yes = ft_strjoin(buffer, c);
-	free(buffer);
-	return(yes);
-}
-
-char	*backslashn(char *buffer)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	if (buffer == NULL)
-		return (NULL);
-	str = ft_calloc(i + 1, sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
-	{
-		str[i] = buffer[i];
-		i++;
-	}
-	if (buffer[i] && buffer[i] == '\n')
-		i++;
-		str[i] = '\n';
 	return (str);
 }
