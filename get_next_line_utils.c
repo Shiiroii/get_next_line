@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:47 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/21 14:33:42 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/21 15:37:41 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,26 @@ char	*freeline(char *buffer, char *c)
 	yes = ft_strjoin(buffer, c);
 	free(buffer);
 	return(yes);
+}
+
+char	*backslashn(char *buffer)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (buffer == NULL)
+		return (NULL);
+	str = ft_calloc(i + 1, sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (buffer[i] && buffer[i] != '\n')
+	{
+		str[i] = buffer[i];
+		i++;
+	}
+	if (buffer[i] && buffer[i] == '\n')
+		i++;
+		str[i] = '\n';
+	return (str);
 }

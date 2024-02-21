@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/21 14:50:14 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/21 15:49:47 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,23 @@ char	*read_line(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
-	char		*l;
+	char		*newline;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
+	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, NULL, 0) == -1)
 	{
 		free(buffer);
 		buffer = NULL;
 		return (NULL);
 	}
-	buffer =
+	buffer = read_line(fd, buffer);
+	if (buffer == NULL)
+		return (NULL);
+	newline = backslashn(buffer);
+	if (newline == NULL || newline[0] == '\0')
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	return (newline);
 }
