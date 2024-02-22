@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/22 12:23:30 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/22 13:42:39 by lulm             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,30 @@ char	*freeline(char *buffer, char *c)
 // 	return (str);
 // }
 
-char *read_line(int fd, char *str)
+char	*read_line(int fd, char *str)
 {
 	char	*buffer;
 	int		i;
 
-	i = 1;
 	if (str == NULL)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
 		return (free(str), NULL);
-	while ((i = read(fd, buffer, BUFFER_SIZE)) > 0 && ft_strchr(buffer, '\n') == NULL)
+	i = read(fd, buffer, BUFFER_SIZE);
+	while (i > 0)
 	{
 		buffer[i] = '\0';
 		str = freeline(str, buffer);
+		if (ft_strchr(buffer, '\n') != NULL)
+			break ;
+		i = read(fd, buffer, BUFFER_SIZE);
+	}
+	if (i < 0)
+	{
+		free(buffer);
+		free(str);
+		return (NULL);
 	}
 	free(buffer);
 	return (str);
@@ -100,17 +109,11 @@ char	*take_line(char *buffer)
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	if (buffer[i] == '\0')
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free(buffer), NULL);
 	i++;
 	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free (buffer), NULL);
 	j = 0;
 	while (j < i)
 	{
