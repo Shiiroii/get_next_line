@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/21 19:09:10 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/22 11:42:53 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,24 @@ char	*read_line(int fd, char *str)
 char	*backslashn(char *buffer)
 {
 	int		i;
+	int		len;
 	char	*str;
 
 	i = 0;
 	if (buffer == NULL)
 		return (NULL);
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
 	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
+	len = 0;
+	while (len < i)
 	{
-		str[i] = buffer[i];
-		i++;
+		str[len] = buffer[len];
+		len++;
 	}
-	if (buffer[i] && buffer[i] == '\n')
-	{
-		i++;
-		str[i] = '\n';
-	}
+	str[i] = '\0';
 	return (str);
 }
 
@@ -75,24 +75,29 @@ char	*take_line(char *buffer)
 	char	*str;
 
 	i = 0;
-	j = 0;
+	if (buffer == NULL)
+		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	if (buffer[i] && buffer[i] == '\n')
 		i++;
 	if (buffer[i] == '\0')
 	{
 		free(buffer);
 		return (NULL);
 	}
-	str = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	i++;
+	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
 	{
 		free(buffer);
 		return (NULL);
 	}
-	while (buffer[i])
-		str[j++] = str[i++];
+	j = 0;
+	while (j < i)
+	{
+		str[j] = buffer[j];
+		j++;
+	}
+	str[j] = '\0';
 	free(buffer);
 	return (str);
 }
@@ -112,10 +117,10 @@ char	*get_next_line(int fd)
 	if (buffer == NULL)
 		return (NULL);
 	newline = backslashn(buffer);
-	if (newline == NULL || newline[0] == '\0')
+	buffer = take_line(buffer);
+	if (newline == NULL || newline[0] == '\0' || buffer == NULL)
 	{
 		free(buffer);
-		free(newline);
 		buffer = NULL;
 		return (NULL);
 	}
