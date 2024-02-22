@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/22 12:18:50 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/22 12:23:30 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char *read_line(int fd, char *str)
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
 		return (free(str), NULL);
-	while ((i = read(fd, buffer, BUFFER_SIZE)) > 0 || ft_strchr(buffer, '\n') == NULL)
+	while ((i = read(fd, buffer, BUFFER_SIZE)) > 0 && ft_strchr(buffer, '\n') == NULL)
 	{
 		buffer[i] = '\0';
 		str = freeline(str, buffer);
