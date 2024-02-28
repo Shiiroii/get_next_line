@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:34 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/21 19:09:56 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/02/28 16:00:38 by lulm             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
