@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/28 16:12:32 by lulm             ###   ########.fr       */
+/*   Updated: 2024/03/04 14:57:01 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ char	*read_line(int fd, char *str)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
-	{
-		free(str);
 		return (NULL);
-	}
 	i = read(fd, buffer, BUFFER_SIZE);
 	if (i == -1 || i == 0)
 	{
@@ -68,7 +65,7 @@ char	*backslashn(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	str = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	len = 0;

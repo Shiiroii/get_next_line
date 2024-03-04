@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:18:45 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/02/28 16:06:47 by lulm             ###   ########.fr       */
+/*   Updated: 2024/02/29 19:04:59 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ int	main(int argc, char **argv)
 		perror("Error");
 		return (1);
 	}
-	line = get_next_line(fd);
-	while ((line) != NULL)
+	while ((line = get_next_line(fd)) != NULL)
+	{
 		printf("%s\n", line);
+		free(line);
+	}
+	if (line == NULL)
+		perror("Error");
 	close(fd);
 	return (0);
 }
