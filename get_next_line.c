@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/04 15:35:15 by lulm             ###   ########.fr       */
+/*   Updated: 2024/03/04 20:20:46 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ char	*read_line(int fd, char *str)
 {
 	char	*buffer;
 	int		i;
+	int		len;
 
 	if (str == NULL)
 		str = ft_calloc(1, 1);
-	buffer = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
 		return (NULL);
 	i = read(fd, buffer, BUFFER_SIZE);
@@ -40,12 +41,17 @@ char	*read_line(int fd, char *str)
 		return (NULL);
 	}
 	buffer[i] = '\0';
-	str = freeline(str, buffer);
-	if (ft_strchr(buffer, '\n') != NULL || i < BUFFER_SIZE)
+	len = ft_strlen(str);
+	str = realloc(str, len + i + 1);
+	if (str == NULL)
 	{
 		free(buffer);
-		return (str);
+		return (NULL);
 	}
+	ft_memcpy(str + len, buffer, i + 1);
+	free(buffer);
+	if (ft_strchr(str, '\n') != NULL || i < BUFFER_SIZE)
+		return (str);
 	return (read_line(fd, str));
 }
 
@@ -105,19 +111,19 @@ char	*take_line(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer = NULL;
 	char		*result;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, NULL, 0) < 0)
 		return (NULL);
+	if (!buffer)
+		buffer = ft_calloc(1, sizeof(char));
 	buffer = read_line(fd, buffer);
-	if (buffer == NULL)
+	if (!buffer)
 		return (NULL);
 	result = take_line(buffer);
-	if (result == NULL)
+	if (!result)
 		return (NULL);
 	buffer = backslashn(buffer);
-	if (buffer == NULL)
-		return (NULL);
 	return (result);
 }
