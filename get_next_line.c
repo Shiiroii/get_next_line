@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/06 15:27:44 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/06 15:57:01 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,26 @@ char	*read_line(int fd, char *str)
 	i = read(fd, buffer, BUFFER_SIZE);
 	if (i == -1)
 	{
-	free(buffer);
-	return (NULL);
+		free(buffer);
+		return (NULL);
 	}
 	else if (i == 0)
 	{
-	free(buffer);
-	return (ft_calloc(1, 1));
+		free(buffer);
+		return (ft_calloc(1, 1));
 	}
 	buffer[i] = '\0';
 	len = ft_strlen(str);
 	str2 = ft_calloc(len + i + 1, sizeof(char));
 	if (str2 == NULL)
 	{
-	free(buffer);
-	return (NULL);
+		free(buffer);
+		return (NULL);
 	}
 	if (str != NULL)
 	{
-	ft_strlcpy(str2, str, len + 1);
-	free(str);
+		ft_strlcpy(str2, str, len + 1);
+		free(str);
 	}
 	ft_strlcpy(str2 + len, buffer, i + 1);
 	free(buffer);
@@ -77,6 +77,8 @@ char	*backslashn(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
+	if (!buffer[i])
+		return (NULL);
 	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
@@ -109,24 +111,58 @@ char	*take_line(char *buffer)
 	return (str);
 }
 
+// char	*get_next_line(int fd)
+// {
+// 	static char	*buffer;
+// 	char		*result;
+
+// 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, NULL, 0) < 0)
+// 	{
+// 		buffer = NULL;
+// 		return (NULL);
+// 	}
+// 	buffer = read_line(fd, buffer);
+// 	if (!buffer)
+// 		return (NULL);
+// 	result = take_line(buffer);
+// 	buffer = backslashn(buffer);
+// 	if (!result || result[0] == 0)
+// 	{
+// 		free(result);
+// 		free(buffer);
+// 		buffer = NULL;
+// 		return (NULL);
+// 	}
+// 	free(buffer);
+// 	return (result);
+// }
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
 	char		*result;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, NULL, 0) < 0)
+	buffer = NULL;
+	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
 	if (!buffer)
-		return (NULL);
-	buffer = read_line(fd, buffer);
+		buffer = ft_calloc(1, sizeof(char));
 	if (!buffer)
 		return (NULL);
-	result = take_line(buffer);
+	result = read_line(fd, buffer);
 	if (!result)
+	{
+		free(buffer);
+		buffer = NULL;
 		return (NULL);
+	}
+	else if (result[0] == '\0')
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+
 	buffer = backslashn(buffer);
-	if (!buffer)
-		return (NULL);
-	free(buffer);
 	return (result);
 }
