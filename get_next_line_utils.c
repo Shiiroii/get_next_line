@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:47 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/06 15:06:09 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/06 16:33:33 by lulm             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,33 +77,4 @@ char	*ft_strchr(const char *s, int c)
 	if (chr == '\0')
 		return ((char *)s);
 	return (NULL);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*str;
-	size_t	s1l;
-	size_t	s2l;
-	size_t	i;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (str == NULL)
-		return (NULL);
-	s1l = ft_strlen(s1);
-	s2l = ft_strlen(s2);
-	i = 0;
-	while (i < s1l)
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (i < s1l + s2l)
-	{
-		str[i] = s2[i - s1l];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
 }
