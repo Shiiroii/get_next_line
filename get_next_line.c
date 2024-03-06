@@ -93,9 +93,10 @@ char	*backslashn(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = NULL;
+	static char	*buffer;
 	char		*result;
 
+	buffer = NULL;
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
 	if (!buffer)
