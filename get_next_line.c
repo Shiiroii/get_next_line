@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/06 16:12:58 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/06 16:19:40 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ char	*get_next_line(int fd)
 	{
 		free(buffer);
 		buffer = NULL;
+		free(result);
 		return (NULL);
 	}
 	if (!buffer)
