@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/04 20:20:46 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/06 15:27:44 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*freeline(char *buffer, char *c)
 char	*read_line(int fd, char *str)
 {
 	char	*buffer;
+	char	*str2;
 	int		i;
 	int		len;
 
@@ -35,21 +36,32 @@ char	*read_line(int fd, char *str)
 	if (buffer == NULL)
 		return (NULL);
 	i = read(fd, buffer, BUFFER_SIZE);
-	if (i == -1 || i == 0)
+	if (i == -1)
 	{
-		free(buffer);
-		return (NULL);
+	free(buffer);
+	return (NULL);
+	}
+	else if (i == 0)
+	{
+	free(buffer);
+	return (ft_calloc(1, 1));
 	}
 	buffer[i] = '\0';
 	len = ft_strlen(str);
-	str = realloc(str, len + i + 1);
-	if (str == NULL)
+	str2 = ft_calloc(len + i + 1, sizeof(char));
+	if (str2 == NULL)
 	{
-		free(buffer);
-		return (NULL);
-	}
-	ft_memcpy(str + len, buffer, i + 1);
 	free(buffer);
+	return (NULL);
+	}
+	if (str != NULL)
+	{
+	ft_strlcpy(str2, str, len + 1);
+	free(str);
+	}
+	ft_strlcpy(str2 + len, buffer, i + 1);
+	free(buffer);
+	str = str2;
 	if (ft_strchr(str, '\n') != NULL || i < BUFFER_SIZE)
 		return (str);
 	return (read_line(fd, str));
@@ -58,7 +70,6 @@ char	*read_line(int fd, char *str)
 char	*backslashn(char *buffer)
 {
 	int		i;
-	int		len;
 	char	*str;
 
 	i = 0;
@@ -66,18 +77,10 @@ char	*backslashn(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	if (buffer[i] == '\0')
-	{
-		free(buffer);
-		return (NULL);
-	}
 	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
-	len = 0;
-	while (buffer[i])
-		str[len++] = buffer[i++];
-	str[i] = '\0';
+	ft_strlcpy(str, buffer, i + 1);
 	return (str);
 }
 
@@ -93,10 +96,7 @@ char	*take_line(char *buffer)
 		i++;
 	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
-	{
-		free(buffer);
 		return (NULL);
-	}
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
@@ -111,13 +111,13 @@ char	*take_line(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = NULL;
+	static char	*buffer;
 	char		*result;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, NULL, 0) < 0)
 		return (NULL);
 	if (!buffer)
-		buffer = ft_calloc(1, sizeof(char));
+		return (NULL);
 	buffer = read_line(fd, buffer);
 	if (!buffer)
 		return (NULL);
@@ -125,5 +125,8 @@ char	*get_next_line(int fd)
 	if (!result)
 		return (NULL);
 	buffer = backslashn(buffer);
+	if (!buffer)
+		return (NULL);
+	free(buffer);
 	return (result);
 }
