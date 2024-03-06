@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/06 15:57:01 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/06 16:12:58 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,11 @@ char	*get_next_line(int fd)
 		buffer = NULL;
 		return (NULL);
 	}
-
+	if (!buffer)
+	{
+		free(result);
+		result = NULL;
+	}
 	buffer = backslashn(buffer);
 	return (result);
 }
