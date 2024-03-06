@@ -53,7 +53,7 @@ int	main(int argc, char **argv)
 	if (fd == -1)
 	{
 		perror ("open");
-		exit(EXIT_FAILURE);
+		return (1);
 	}
 	while ((line = get_next_line(fd)) != NULL)
 	{
