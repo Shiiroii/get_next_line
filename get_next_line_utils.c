@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:47 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/11 04:07:02 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/11 17:45:20 by lulm             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		s1l++;
 		s2l++;
 	}
-	str[s1l] = '\0';
+	str[s1l + s2l] = '\0';
 	return (str);
 }
