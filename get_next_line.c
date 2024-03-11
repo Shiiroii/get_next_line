@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/11 03:37:26 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/11 04:35:56 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ char	*read_line(int fd, char *str)
 	char	*buffer;
 	int		i;
 
+	i = 1;
 	if (str == NULL)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
 		return (NULL);
 	i = read(fd, buffer, BUFFER_SIZE);
-	while (i > 0 || ft_strchr(buffer, '\n'))
+	while (i > 0)
 	{
-		i = read(fd, buffer, BUFFER_SIZE);
 		if (i < 0)
 		{
 			free(buffer);
@@ -44,27 +44,41 @@ char	*read_line(int fd, char *str)
 		}
 		buffer[i] = '\0';
 		str = freeline(str, buffer);
+		if (ft_strchr(buffer, '\n'))
+			break;
+		i = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	return (str);
 }
 
+
 char	*backslashn(char *buffer)
 {
 	int		i;
+	int		j;
 	char	*str;
 
 	i = 0;
-	if (buffer == NULL)
-		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
+	if (buffer[i] && buffer[i] == '\n')
+		i++;
 	if (!buffer[i])
+	{
+		free(buffer);
 		return (NULL);
-	str = ft_calloc(i + 1, sizeof(char));
+	}
+	str = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
 	if (str == NULL)
+	{
+		free(buffer);
 		return (NULL);
-	ft_strlcpy(str, buffer, i + 1);
+	}
+	j = 0;
+	while (buffer[i])
+		str[j++] = buffer[i++];
+	free(buffer);
 	return (str);
 }
 
@@ -78,6 +92,8 @@ char	*take_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
+	if (buffer[i] == '\n')
+		i++;
 	str = ft_calloc(i + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
@@ -87,37 +103,9 @@ char	*take_line(char *buffer)
 		str[i] = buffer[i];
 		i++;
 	}
-	if (buffer[i] && buffer[i] == '\n')
-		str[i++] = '\n';
 	str[i] = '\0';
 	return (str);
 }
-
-// char	*get_next_line(int fd)
-// {
-// 	static char	*buffer;
-// 	char		*result;
-
-// 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, NULL, 0) < 0)
-// 	{
-// 		buffer = NULL;
-// 		return (NULL);
-// 	}
-// 	buffer = read_line(fd, buffer);
-// 	if (!buffer)
-// 		return (NULL);
-// 	result = take_line(buffer);
-// 	buffer = backslashn(buffer);
-// 	if (!result || result[0] == 0)
-// 	{
-// 		free(result);
-// 		free(buffer);
-// 		buffer = NULL;
-// 		return (NULL);
-// 	}
-// 	free(buffer);
-// 	return (result);
-// }
 
 char	*get_next_line(int fd)
 {
@@ -134,13 +122,11 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	ligne = take_line(buffer);
-	buffer = backslashn(buffer);
 	if (!ligne || ligne[0] == 0)
 	{
 		free(ligne);
-		free(buffer);
-		buffer = NULL;
 		return (NULL);
 	}
+	buffer = backslashn(buffer);
 	return (ligne);
 }
