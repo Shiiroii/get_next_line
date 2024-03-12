@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:47 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/12 01:52:59 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/12 02:19:00 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,44 +49,44 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 char	*ft_strchr(const char *s, int c)
 {
-	int	i;
+	char	chr;
 
-	i = 0;
-	while (s[i] != (char)c && s[i])
+	chr = (char)c;
+	while (*s != '\0')
 	{
-		i++;
+		if (*s == chr)
+			return ((char *)s);
+		s++;
 	}
-	if (s[i] == (char)c)
-	{
-		return (&*(char *)s + i);
-	}
-	return (0);
+	if (chr == '\0')
+		return ((char *)s);
+	return (NULL);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
-	size_t	i;
-	size_t	i2;
+	size_t	s1l;
+	size_t	s2l;
 
-	i = 0;
-	i2 = 0;
-	if (!s1 || !s2)
+	s1l = 0;
+	s2l = 0;
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
+	if (str == NULL)
 		return (NULL);
-	while (s1[i])
+	while (s1[s1l])
 	{
-		str[i] = s1[i];
-		i++;
+		str[s1l] = s1[s1l];
+		s1l++;
 	}
-	while (s2[i2])
+	while (s2[s2l])
 	{
-		str[i] = s2[i2];
-		i++;
-		i2++;
+		str[s1l] = s2[s2l];
+		s1l++;
+		s2l++;
 	}
-	str[i] = '\0';
+	str[s1l] = '\0';
 	return (str);
 }

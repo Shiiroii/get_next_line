@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/12 01:58:06 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/12 01:59:50 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*backslashn(char *buffer)
 		i++;
 	if (buffer[i] && buffer[i] == '\n')
 		i++;
-	if (!buffer[i])
+	if (buffer[i] == '\0')
 	{
 		free(buffer);
 		return (NULL);
@@ -120,11 +120,11 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	buffer = read_line(fd, buffer);
-	if (!buffer)
+	if (buffer == NULL)
 		return (NULL);
 	ligne = take_line(buffer);
 	buffer = backslashn(buffer);
-	if (!ligne || ligne[0] == 0)
+	if (ligne == NULL || ligne[0] == 0)
 	{
 		free(ligne);
 		free(buffer);
