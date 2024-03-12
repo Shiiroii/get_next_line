@@ -6,13 +6,16 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/12 01:59:50 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/12 06:52:04 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*freeline(char *buffer, char *c)
+/*concatène plusieurs chaînes de caractères ensemble
+puis libère la mémoire*/
+
+char	*joinandfree(char *buffer, char *c)
 {
 	char	*yes;
 
@@ -20,6 +23,11 @@ char	*freeline(char *buffer, char *c)
 	free(buffer);
 	return (yes);
 }
+
+/*lecture de la ligne grâce à un file descriptor,
+alloue la mémoire nécessaire pour ce qui est lu par
+rapport au BUFFER_SIZE donné, retourne le string et
+s'arrête s'il trouve un retour à la ligne*/
 
 char	*read_line(int fd, char *str)
 {
@@ -44,7 +52,7 @@ char	*read_line(int fd, char *str)
 			return (NULL);
 		}
 		buffer[i] = '\0';
-		str = freeline(str, buffer);
+		str = joinandfree(str, buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -52,6 +60,9 @@ char	*read_line(int fd, char *str)
 	return (str);
 }
 
+/*créé une nouvelle chaîne de caractères après
+avoir trouvé un '\n'. alloue la mémoire nécessaire
+puis retourne la ligne.*/
 
 char	*backslashn(char *buffer)
 {
@@ -82,6 +93,11 @@ char	*backslashn(char *buffer)
 	return (str);
 }
 
+/*vérifie s'il y a des '\n' pour pouvoir les
+copier dans la chaîne de caractères. alloue
+cela à la mémoire et renvoie cette nouvelle
+chaîne*/
+
 char	*take_line(char *buffer)
 {
 	int		i;
@@ -107,6 +123,11 @@ char	*take_line(char *buffer)
 		str[i++] = '\n';
 	return (str);
 }
+
+/*peut lire un fichier texte ligne par ligne grâce à
+la variable static (buffer). une variable static permet
+de preserver le résultat précédent et rajouter le
+prochain à cela, pouvant concerver les deux.*/
 
 char	*get_next_line(int fd)
 {

@@ -6,7 +6,7 @@
 /*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:03:34 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/12 01:54:04 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/03/12 06:41:55 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*backslashn(char *buffer);
 char	*read_line(int fd, char *str);
+char	*joinandfree(char *buffer, char *c);
 
 #endif
