@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/11 17:41:52 by lulm             ###   ########.fr       */
+/*   Updated: 2024/03/12 01:58:06 by lionelulm        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ char	*freeline(char *buffer, char *c)
 {
 	char	*yes;
 
-	if (buffer == NULL || c == NULL)
-		return (NULL);
 	yes = ft_strjoin(buffer, c);
 	free(buffer);
 	return (yes);
@@ -33,9 +31,13 @@ char	*read_line(int fd, char *str)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
+	{
+		free(str);
 		return (NULL);
+	}
 	while (i > 0)
 	{
+		i = read(fd, buffer, BUFFER_SIZE);
 		if (i < 0)
 		{
 			free(buffer);
@@ -45,7 +47,6 @@ char	*read_line(int fd, char *str)
 		str = freeline(str, buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
-		i = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	return (str);
@@ -102,7 +103,8 @@ char	*take_line(char *buffer)
 		str[i] = buffer[i];
 		i++;
 	}
-	str[i] = '\0';
+	if (buffer[i] && buffer[i] == '\n')
+		str[i++] = '\n';
 	return (str);
 }
 
@@ -121,12 +123,14 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	ligne = take_line(buffer);
+	buffer = backslashn(buffer);
 	if (!ligne || ligne[0] == 0)
 	{
 		free(ligne);
+		free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
-	buffer = backslashn(buffer);
-	free(buffer);
 	return (ligne);
 }
+
