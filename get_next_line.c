@@ -132,7 +132,7 @@ prochain à cela, pouvant concerver les deux.*/
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
-	char		*ligne;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
@@ -143,15 +143,15 @@ char	*get_next_line(int fd)
 	buffer = read_line(fd, buffer);
 	if (buffer == NULL)
 		return (NULL);
-	ligne = take_line(buffer);
+	line = take_line(buffer);
 	buffer = backslashn(buffer);
-	if (ligne == NULL || ligne[0] == 0)
+	if (line == NULL || line[0] == 0)
 	{
-		free(ligne);
+		free(line);
 		free(buffer);
 		buffer = NULL;
 		return (NULL);
 	}
-	return (ligne);
+	return (line);
 }
 
