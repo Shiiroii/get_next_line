@@ -12,18 +12,6 @@
 
 #include "get_next_line.h"
 
-/*concatène plusieurs chaînes de caractères ensemble
-puis libère la mémoire*/
-
-char	*joinandfree(char *buffer, char *c)
-{
-	char	*yes;
-
-	yes = ft_strjoin(buffer, c);
-	free(buffer);
-	return (yes);
-}
-
 /*lecture de la ligne grâce à un file descriptor,
 alloue la mémoire nécessaire pour ce qui est lu par
 rapport au BUFFER_SIZE donné, retourne le string et
@@ -52,7 +40,7 @@ char	*read_line(int fd, char *str)
 			return (NULL);
 		}
 		buffer[i] = '\0';
-		str = joinandfree(str, buffer);
+		str = ft_strjoin(buffer, c);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
