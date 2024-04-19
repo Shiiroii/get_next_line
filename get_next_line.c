@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lionelulm <lionelulm@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lulm <lulm@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 16:02:27 by lionelulm         #+#    #+#             */
-/*   Updated: 2024/03/12 06:52:04 by lionelulm        ###   ########.fr       */
+/*   Updated: 2024/04/19 17:39:37 by lulm             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ s'arrête s'il trouve un retour à la ligne*/
 char	*read_line(int fd, char *str)
 {
 	char	*buffer;
+	char	*yes;
 	int		i;
 
 	i = 1;
@@ -27,20 +28,16 @@ char	*read_line(int fd, char *str)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
-	{
-		free(str);
-		return (NULL);
-	}
+		return (free(str), NULL);
 	while (i > 0)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i < 0)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (free(buffer), NULL);
 		buffer[i] = '\0';
-		str = ft_strjoin(buffer, c);
+		yes = ft_strjoin(str, buffer);
+		free(str);
+		str = yes;
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
