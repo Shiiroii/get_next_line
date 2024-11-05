@@ -6,7 +6,7 @@
 /*   By: liulm <liulm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:19:04 by liulm             #+#    #+#             */
-/*   Updated: 2024/11/05 15:51:28 by liulm            ###   ########.fr       */
+/*   Updated: 2024/11/05 16:06:08 by liulm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*read_line(int fd, char	*str)
 {
-	static char	*buffer;
+	char	*buffer;
 	char		*joined_str;
 	int			i;
 
@@ -23,7 +23,7 @@ static char	*read_line(int fd, char	*str)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (buffer == NULL)
-		return (free(buffer), NULL);
+		return (free(str), NULL);
 	while (i > 0)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
@@ -55,7 +55,7 @@ static char	*backslashn_verif(char *str)
 	if (str[i] == '\n')
 		i++;
 	temp_str = ft_calloc(i + 1, sizeof(char));
-	if (str == NULL)
+	if (temp_str == NULL)
 		return (NULL);
 	i = 0;
 	while (str[i] && str[i] != '\n')
@@ -64,8 +64,8 @@ static char	*backslashn_verif(char *str)
 		i++;
 	}
 	if (str[i] && str[i] == '\n')
-		str[i++] = '\n';
-	return (str);
+		temp_str[i++] = '\n';
+	return (temp_str);
 }
 
 static char	*next_line(char *str)
@@ -85,7 +85,7 @@ static char	*next_line(char *str)
 		return (NULL);
 	}
 	temp_str = ft_calloc(ft_strlen(str) - i + 1, sizeof(char));
-	if (str == NULL)
+	if (temp_str == NULL)
 	{
 		free(str);
 		return (NULL);
