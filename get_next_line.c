@@ -6,7 +6,7 @@
 /*   By: liulm <liulm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 14:19:04 by liulm             #+#    #+#             */
-/*   Updated: 2024/11/05 16:06:08 by liulm            ###   ########.fr       */
+/*   Updated: 2024/11/07 14:01:19 by liulm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static char	*read_line(int fd, char	*str)
 {
 	char	*buffer;
-	char		*joined_str;
-	int			i;
+	char	*joined_str;
+	int		i;
 
 	i = 1;
 	if (str == NULL)
@@ -39,8 +39,6 @@ static char	*read_line(int fd, char	*str)
 	free(buffer);
 	return (str);
 }
-
-// la boucle infinie est surement la dedans
 
 static char	*backslashn_verif(char *str)
 {
@@ -77,7 +75,7 @@ static char	*next_line(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (str[i] && str[i] != '\n')
+	if (str[i] && str[i] == '\n')
 		i++;
 	if (str[i] == '\0')
 	{
