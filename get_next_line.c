@@ -32,12 +32,11 @@ static char	*read_line(int fd, char	*str)
 		buffer[i] = '\0';
 		joined_str = ft_strjoin(str, buffer);
 		free(str);
-		str = joined_str;
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
 	free(buffer);
-	return (str);
+	return (joined_str);
 }
 
 static char	*backslashn_verif(char *str)
